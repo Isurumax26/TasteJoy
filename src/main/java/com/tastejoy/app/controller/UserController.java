@@ -42,7 +42,7 @@ public class UserController {
     public ModelAndView saveUser(User user) {
         if (StringUtils.isNotBlank(user.getUsername()) && userDAO.get(user.getUsername()) != null)
             userDAO.add(user);
-        return new ModelAndView(REDIRECT_INDEX);
+        return new ModelAndView(REDIRECT_INDEX + user.getUsername());
     }
 
     @PostMapping("update/")

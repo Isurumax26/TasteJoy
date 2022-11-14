@@ -16,7 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final DataSource dataSource;
 
-	@Autowired(required = false)
+	@Autowired
 	public SecurityConfig(@Nullable DataSource dataSource) {
 		this.dataSource = dataSource;
 	}

@@ -25,18 +25,27 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     private static final String USER_VIEW = "user";
+    private static final String USERS_VIEW = "users";
     private static final String REDIRECT_INDEX = "redirect:/user/";
 
     @Autowired
     private UserDAOImpl userDAO;
 
-    @GetMapping({"/", "/{username}"})
+    @GetMapping({"/{username}"})
     public String getUser(@PathVariable(required = false) String username, Model model) {
     	//System.out.println(new BCryptPasswordEncoder().encode("cool123"));
         model.addAttribute("users", userDAO.get());
         model.addAttribute("user", username != null ? userDAO.get(username) : new User());
         return USER_VIEW;
     }
+    
+    @GetMapping("/")
+    public String getUser(Model model) {
+    	//System.out.println(new BCryptPasswordEncoder().encode("cool123"));
+        model.addAttribute("users", userDAO.get());
+        return USERS_VIEW;
+    }
+
 
     @PostMapping("/")
     public ModelAndView saveUser(User user) {

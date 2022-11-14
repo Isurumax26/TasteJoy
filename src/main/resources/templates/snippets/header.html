@@ -11,7 +11,7 @@
                 <a id="ul-pizza"  href="/pizza/">Pizza</a>
                 <a id="ul-drinks" href="/drink/">Drinks</a>
                 <a id="ul-orders" href="/order/">Orders</a>
-                <a id="ul-users" th:href="@{'/user/'+${#authentication.getPrincipal().getUsername()}}" ><span th:text="${#authentication.getPrincipal().getUsername()}"></span></a>
+                <a id="ul-users" th:href="@{'/user/'}" ></span></a>
                 <a id="ul-allusers" th:href="@{'/user/'}" >Users</a>
                 <a href="/logout">logout</a>
             </div>

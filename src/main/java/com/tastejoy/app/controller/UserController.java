@@ -34,7 +34,6 @@ public class UserController {
 
     @GetMapping({"/{username}"})
     public String getUser(@PathVariable(required = false) String username, Model model) {
-    	//System.out.println(new BCryptPasswordEncoder().encode("cool123"));
         model.addAttribute("users", userDAO.get());
         model.addAttribute("user", username != null ? userDAO.get(username) : new User());
         return USER_VIEW;

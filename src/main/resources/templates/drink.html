@@ -35,9 +35,9 @@
                 <td th:text="${drink.id}"></td>
                 <td th:text="${drink.price}"></td>
                 <td th:text="${drink.name}"></td>
-                <td><a th:href="@{'/drinks/' + ${drink.id}}"><img th:width="25px" src="https://img.icons8.com/metro/26/000000/pencil.png"></a></td>
-                <td><a th:href="@{/drinks/delete/{id}(id=${drink.id})}"><img th:width="25px" src="https://img.icons8.com/ios/50/000000/trash-filled.png"></a></td>
-                <td><a th:href="@{/orders/create?type=drink&productId={id}(id=${drink.id})}"><img th:width="25px" src="https://img.icons8.com/dotty/80/000000/add-shopping-cart.png"></a></td>
+                <td><a th:href="@{'/drinks/' + ${drink.id}}"><img th:width="25px" th:src="@{/images/pencil.png}"></a></td>
+                <td><a th:href="@{/drinks/delete/{id}(id=${drink.id})}"><img th:width="25px" th:src="@{/images/trash-filled.png}"></a></td>
+                <td><a th:href="@{/orders/create?type=drink&productId={id}(id=${drink.id})}"><img th:width="25px" th:src="@{/images/add-shopping-cart.png}"></a></td>
             </tr>
             </tbody>
         </table>

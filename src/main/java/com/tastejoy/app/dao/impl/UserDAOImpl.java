@@ -21,7 +21,7 @@ import java.util.List;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    private static final String SQL_ADD = "insert into users(username,firstName,secondName,phoneNumber,address,email) values(?,?,?,?,?,?)";
+    private static final String SQL_ADD = "insert into users(username, password, firstName,secondName,phoneNumber,address,email) values(?,?,?,?,?,?,?)";
     private static final String SQL_UPDATE = "update users set firstName=?,secondName=?,phoneNumber=?,address=?,email=?  where username=?";
     private static final String SQL_GET_LIST = "select * from users";
     private static final String SQL_DELETE = "delete from users where username = ?";
@@ -42,9 +42,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public User get(String username) {
-        return jdbcTemplate.queryForObject(
-                SQL_GET_USER,
-                new UserRowMapper(), username);
+    	try {
+    		 return jdbcTemplate.queryForObject(
+    	                SQL_GET_USER,
+    	                new UserRowMapper(), username);
+    	}
+    	catch (Exception ex) {
+    		return null;
+    	}       
     }
 
     @Override
@@ -98,11 +103,12 @@ public class UserDAOImpl implements UserDAO {
         return connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUsername());
-            ps.setString(2, user.getFirstName());
-            ps.setString(3, user.getSecondName());
-            ps.setString(4, user.getPhoneNumber());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getFirstName());
+            ps.setString(4, user.getSecondName());
+            ps.setString(5, user.getPhoneNumber());
             ps.setString(6, user.getAddress());
-            ps.setString(6, user.getEmail());
+            ps.setString(7, user.getEmail());
             return ps;
         };
     }

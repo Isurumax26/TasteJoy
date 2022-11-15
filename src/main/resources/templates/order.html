@@ -29,7 +29,7 @@
                 <td th:text="${order.getProductName()}" >info</td>
                 <td ><a th:text="${order.user.username}" th:href="@{'/users/'+${order.user.username}}">order</a></td>
                 <td><a th:href="@{'/orders/'+${order.id}}"><img th:width="25px" th:src="(${order.status} == 1) ? 'https://img.icons8.com/cotton/64/000000/checkmark.png' : 'https://img.icons8.com/dotty/80/000000/ok.png'"></a></td>
-                <td><a th:href="@{'/orders/delete/'+${order.id}}"><img th:width="25px" src="https://img.icons8.com/ios/50/000000/trash-filled.png"></a></td>
+                <td><a th:href="@{'/orders/delete/'+${order.id}}"><img th:width="25px" th:src="@{/images/trash-filled.png}"></a></td>
             </tr>
         </table>
     </div>

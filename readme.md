@@ -76,6 +76,8 @@ Thymleaf
 
 mysql
 
+jQuery
+
 
 
 

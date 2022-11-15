@@ -18,7 +18,7 @@ import com.tastejoy.app.dao.impl.UserDAOImpl;
 import com.tastejoy.app.entity.User;
 
 @Controller
-@RequestMapping("user/")
+@RequestMapping("/users")
 public class UserController {
 	
 
@@ -26,7 +26,7 @@ public class UserController {
 
     private static final String USER_VIEW = "user";
     private static final String USERS_VIEW = "users";
-    private static final String REDIRECT_INDEX = "redirect:/user/";
+    private static final String REDIRECT_INDEX = "redirect:/users";
 
     @Autowired
     private UserDAOImpl userDAO;
@@ -39,7 +39,7 @@ public class UserController {
         return USER_VIEW;
     }
     
-    @GetMapping("/")
+    @GetMapping
     public String getUser(Model model) {
     	//System.out.println(new BCryptPasswordEncoder().encode("cool123"));
         model.addAttribute("users", userDAO.get());
@@ -47,20 +47,20 @@ public class UserController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping
     public ModelAndView saveUser(User user) {
         if (StringUtils.isNotBlank(user.getUsername()) && userDAO.get(user.getUsername()) != null)
             userDAO.add(user);
         return new ModelAndView(REDIRECT_INDEX + user.getUsername());
     }
 
-    @PostMapping("update/")
+    @PostMapping("/update")
     public ModelAndView updateUser(User user) {
         userDAO.updateUser(user);
         return new ModelAndView(REDIRECT_INDEX);
     }
 
-    @GetMapping("delete/{username}")
+    @GetMapping("/delete/{username}")
     public ModelAndView deleteUser(@PathVariable String username) {
         LOGGER.info("Deleting pizza: {}", username);
         userDAO.delete(username);

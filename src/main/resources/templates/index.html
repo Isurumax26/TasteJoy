@@ -31,14 +31,14 @@
                 <td th:text="${pizza.info}">info</td>
                 <td th:text="${pizza.size}">size</td>
                 <td th:text="${pizza.price}">price</td>
-                <td><a th:href="@{${pizza.id}}"><img th:width="25px" src="https://img.icons8.com/metro/26/000000/pencil.png"></a> </td>
-                <td><a th:href="@{'delete/' + ${pizza.id}}"><img th:width="25px" src="https://img.icons8.com/ios/50/000000/trash-filled.png"></a> </td>
-                <td><a th:href="@{/order/create?type=pizza&productId={id}(id=${pizza.id})}"><img th:width="25px" src="https://img.icons8.com/dotty/80/000000/add-shopping-cart.png"></a></td>
+                <td><a th:href="@{'/pizzas/' + ${pizza.id}}"><img th:width="25px" src="https://img.icons8.com/metro/26/000000/pencil.png"></a> </td>
+                <td><a th:href="@{'/pizzas/delete/' + ${pizza.id}}"><img th:width="25px" src="https://img.icons8.com/ios/50/000000/trash-filled.png"></a> </td>
+                <td><a th:href="@{/orders/create?type=pizza&productId={id}(id=${pizza.id})}"><img th:width="25px" src="https://img.icons8.com/dotty/80/000000/add-shopping-cart.png"></a></td>
             </tr>
         </table>
     </div>
     <div class="col-md-3" style="margin-top: 50px; float: right;">
-        <form th:object="${pizza}" th:action="@{/pizza/}" method="post">
+        <form th:object="${pizza}" th:action="@{/pizzas}" method="post">
 
             <input type="hidden" th:field="*{id}" id="id" placeholder="price">
 

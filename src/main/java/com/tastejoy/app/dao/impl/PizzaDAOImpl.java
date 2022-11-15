@@ -35,9 +35,15 @@ public class PizzaDAOImpl implements PizzaDAO {
 
     @Override
     public Pizza get(int id) {
-        return jdbcTemplate.queryForObject(
-                SQL_GET_PIZZA,
-                new PizzaRowMapper(), id);
+    	try {
+    		return jdbcTemplate.queryForObject(
+                    SQL_GET_PIZZA,
+                    new PizzaRowMapper(), id);
+    	}
+    	catch (Exception ex) {
+    		return null;
+    	}
+        
     }
 
     @Override

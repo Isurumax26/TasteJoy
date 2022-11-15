@@ -8,11 +8,11 @@
         <div class="header">
             <a href="/pizza/" class="logo">TasteJoy</a>
             <div class="header-right">
-                <a id="ul-pizza"  href="/pizza/">Pizza</a>
-                <a id="ul-drinks" href="/drink/">Drinks</a>
-                <a id="ul-orders" href="/order/">Orders</a>
-                <a id="ul-users" th:href="@{'/user/'+${#authentication.getPrincipal().getUsername()}}" ><span th:text="${#authentication.getPrincipal().getUsername()}"></span></a>
-                <a id="ul-allusers" th:href="@{'/user/'}" >Users</a>
+                <a id="ul-pizza"  href="/pizzas">Pizza</a>
+                <a id="ul-drinks" href="/drinks">Drinks</a>
+                <a id="ul-orders" href="/orders">Orders</a>
+                <a id="ul-users" th:href="@{'/users/'+${#authentication.getPrincipal().getUsername()}}" ><span th:text="${#authentication.getPrincipal().getUsername()}"></span></a>
+                <a id="ul-allusers" th:href="@{'/users'}" >Users</a>
                 <a href="/logout">logout</a>
             </div>
         </div>

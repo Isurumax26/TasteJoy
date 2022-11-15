@@ -43,13 +43,13 @@
                 <td th:text="${user.address}"></td>
                 <td th:text="${user.email}"></td>
                 <td><a th:href="@{{username}(username=${user.username})}"><img th:width="25px" src="https://img.icons8.com/metro/26/000000/pencil.png"></a></td>
-                <td><a th:href="@{delete/{username}(username=${user.username})}"><img th:width="25px" src="https://img.icons8.com/ios/50/000000/trash-filled.png"></a></td>
+                <td><a th:href="@{/delete/{username}(username=${user.username})}"><img th:width="25px" src="https://img.icons8.com/ios/50/000000/trash-filled.png"></a></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="col-md-3" style="margin-top: 50px; float: right;">
-        <form th:object="${user}" th:action="@{/user/}" method="post">
+        <form th:object="${user}" th:action="@{/users}" method="post">
 
             <input type="hidden" th:field="*{username}" id="username" placeholder="username">
 

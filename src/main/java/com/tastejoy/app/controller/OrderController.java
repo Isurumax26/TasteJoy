@@ -19,17 +19,17 @@ import com.tastejoy.app.entity.Order;
 import com.tastejoy.app.entity.Pizza;
 
 @Controller
-@RequestMapping("order/")
+@RequestMapping("/orders")
 public class OrderController {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
     private static final String ORDER = "order";
-    private static final String REDIRECT_ORDER = "redirect:/order/"; //  redirect:/pizza/
+    private static final String REDIRECT_ORDER = "redirect:/orders"; 
 
     @Autowired
     private OrderDAO orderDAO;
 
-    @GetMapping("/")
+    @GetMapping
     public String getOrder(@PathVariable(required = false) Integer id, Model model) {
         model.addAttribute("orders", orderDAO.get());
         model.addAttribute("order", id != null ? orderDAO.get(id) : new Order());
@@ -63,7 +63,7 @@ public class OrderController {
         return new ModelAndView(REDIRECT_ORDER);
     }
 
-    @GetMapping("delete/{id}")
+    @GetMapping("/delete/{id}")
     public ModelAndView deleteOrder(@PathVariable int id) {
         LOGGER.info("Deleting order: {}", id);
         orderDAO.delete(id);

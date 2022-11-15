@@ -44,7 +44,7 @@ public class UserDAOImpl implements UserDAO {
     public User get(String username) {
         return jdbcTemplate.queryForObject(
                 SQL_GET_USER,
-                new Object[]{username}, new UserRowMapper());
+                new UserRowMapper(), username);
     }
 
     @Override

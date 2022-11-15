@@ -18,31 +18,31 @@ import com.tastejoy.app.dao.PizzaDAO;
 import com.tastejoy.app.entity.Pizza;
 
 @Controller
-@RequestMapping("pizza/")
+@RequestMapping("/pizzas")
 public class PizzaController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PizzaController.class);
 
     private static final String INDEX = "index";
-    private static final String REDIRECT_INDEX = "redirect:/pizza/";
+    private static final String REDIRECT_INDEX = "redirect:/pizzas";
 
     @Autowired
     private PizzaDAO pizzaDAO;
 
-    @GetMapping({"/", "/{id}"})
+    @GetMapping({"", "/{id}"})
     public String getPizza(@PathVariable(required = false) Integer id, Model model) {
         model.addAttribute("pizzas", pizzaDAO.get());
         model.addAttribute("pizza", id != null ? pizzaDAO.get(id) : new Pizza());
         return INDEX;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ModelAndView savePizza(Pizza pizza) {
         pizzaDAO.add(pizza);
         return new ModelAndView(REDIRECT_INDEX);
     }
 
-    @GetMapping("delete/{id}")
+    @GetMapping("/delete/{id}")
     public ModelAndView deletePizza(@PathVariable int id) {
         LOGGER.info("Deleting pizza: {}", id);
         pizzaDAO.delete(id);

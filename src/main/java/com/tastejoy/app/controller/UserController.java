@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +27,7 @@ public class UserController {
 
     private static final String USER_VIEW = "user";
     private static final String USERS_VIEW = "users";
-    private static final String REDIRECT_INDEX = "redirect:/users";
+    private static final String REDIRECT_INDEX = "redirect:/users/";
 
     @Autowired
     private UserDAOImpl userDAO;
@@ -41,7 +42,6 @@ public class UserController {
     
     @GetMapping
     public String getUser(Model model) {
-    	//System.out.println(new BCryptPasswordEncoder().encode("cool123"));
         model.addAttribute("users", userDAO.get());
         return USERS_VIEW;
     }
@@ -49,20 +49,20 @@ public class UserController {
 
     @PostMapping
     public ModelAndView saveUser(User user) {
-        if (StringUtils.isNotBlank(user.getUsername()) && userDAO.get(user.getUsername()) != null)
-            userDAO.add(user);
+        if (StringUtils.isNotBlank(user.getUsername()))
+            userDAO.updateUser(user);
         return new ModelAndView(REDIRECT_INDEX + user.getUsername());
     }
 
-    @PostMapping("/update")
+    @PutMapping("/{username}")
     public ModelAndView updateUser(User user) {
         userDAO.updateUser(user);
-        return new ModelAndView(REDIRECT_INDEX);
+        return new ModelAndView(REDIRECT_INDEX + user.getUsername());
     }
 
     @GetMapping("/delete/{username}")
     public ModelAndView deleteUser(@PathVariable String username) {
-        LOGGER.info("Deleting pizza: {}", username);
+        LOGGER.info("Deleting user: {}", username);
         userDAO.delete(username);
         return new ModelAndView(REDIRECT_INDEX);
     }

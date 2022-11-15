@@ -54,10 +54,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void add(User user) {
-        if (user.getUsername() != null && get(user.getUsername()) != null) {
-            update(user);
-            return;
-        }
         KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(generatePreparedStatementCreator(user, SQL_ADD), holder);
     }
@@ -74,10 +70,11 @@ public class UserDAOImpl implements UserDAO {
                                     user.getPhoneNumber(),user.getAddress(),user.getEmail()};
         // define SQL types of the arguments
         int[] types = {Types.VARCHAR};
+        update(user);
 
-        int rows = jdbcTemplate.update(SQL_UPDATE, params, types);
+        //int rows = jdbcTemplate.update(SQL_UPDATE, params, types);
 
-        System.out.println(rows + " row(s) updated.");
+       //.. System.out.println(rows + " row(s) updated.");
     }
 
     public void update(User user) {

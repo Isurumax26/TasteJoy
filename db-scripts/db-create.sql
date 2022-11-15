@@ -17,7 +17,7 @@ CREATE TABLE users (
     address varchar(50) NOT NULL,
 	email varchar(50) NOT NULL,
 	password varchar(100) NOT NULL,
-	enabled tinyint(1) NOT NULL,
+	enabled tinyint(1) default 1,
 	PRIMARY KEY (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -52,6 +52,22 @@ CREATE TABLE orders(
     CONSTRAINT FK_orders_idClient FOREIGN KEY (idClient) REFERENCES users (username) ON DELETE CASCADE ON update cascade
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE order_pizza(
+	order_id INTEGER NOT NULL,
+    pizza_id INTEGER NOT NULL,
+    UNIQUE KEY orderspizz_idx_1 (order_id, pizza_id),
+	CONSTRAINT FK_order_id1 FOREIGN KEY (order_id) REFERENCES orders (id)  ON DELETE CASCADE ON update cascade,
+    CONSTRAINT FK_pizza FOREIGN KEY (pizza_id) REFERENCES pizza (id)  ON DELETE CASCADE ON update cascade
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE order_drink(
+	order_id INTEGER NOT NULL,
+    drink_id INTEGER NOT NULL,
+    UNIQUE KEY ordersdrink_idx_2 (order_id, drink_id),
+	CONSTRAINT FK_order_id2 FOREIGN KEY (order_id) REFERENCES orders (id)  ON DELETE CASCADE ON update cascade,
+	CONSTRAINT FK_drink FOREIGN KEY (drink_id) REFERENCES drink (id)  ON DELETE CASCADE ON update cascade
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 INSERT INTO users VALUES
 		('test', 'Dmitry','Blackwell','+1256','Solaris','test@mail.com' ,'{bcrypt}$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1), -- fun123
 		('admin', 'Daria','Tsyhanok','+1234','Solaris','admin@pizza.com' ,'{bcrypt}$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1);
@@ -65,5 +81,5 @@ INSERT INTO pizza VALUES (1,'meat', 35, 85), (2,'paper', 35, 70), (3,'chiken', 3
 INSERT INTO drink VALUES (1,12 ,'pepsi' ), (2,14,'coca-cola'), (3,10,'fanta' ), (4, 10,'sprite');
 INSERT INTO orders VALUES (default,0,"pizza",1,'test'), (default ,0,"pizza",3,'test');
 INSERT INTO orders VALUES (default,0,"pizza",4,'admin'), (default ,0,"pizza",3,'test'), (default ,0,'drink',1,'test');
-
+INSERT INTO authorities VALUES('test1', 'ROLE_USER');
 DROP DATABASE tastejoydb;

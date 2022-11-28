@@ -2,12 +2,14 @@ package com.tastejoy.app.dao.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.tastejoy.app.dao.OrderDAO;
 import com.tastejoy.app.dao.PizzaDAO;
 import com.tastejoy.app.dao.mapper.PizzaRowMapper;
 import com.tastejoy.app.entity.Pizza;
@@ -27,6 +29,10 @@ public class PizzaDAOImpl implements PizzaDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    
+    @Autowired
+    @Lazy
+    private OrderDAO orderDAO;
 
     @Override
     public List<Pizza> get() {
@@ -39,6 +45,7 @@ public class PizzaDAOImpl implements PizzaDAO {
     		return jdbcTemplate.queryForObject(
                     SQL_GET_PIZZA,
                     new PizzaRowMapper(), id);
+    		
     	}
     	catch (Exception ex) {
     		return null;
@@ -70,6 +77,7 @@ public class PizzaDAOImpl implements PizzaDAO {
 
     @Override
     public void delete(int id) {
+    	orderDAO.delete(id, "pizza");
         jdbcTemplate.update(SQL_DELETE, id);
     }
 

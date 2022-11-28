@@ -2,13 +2,16 @@ package com.tastejoy.app.dao.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.tastejoy.app.dao.DrinkDAO;
+import com.tastejoy.app.dao.OrderDAO;
 import com.tastejoy.app.dao.mapper.DrinkRowMapper;
 import com.tastejoy.app.entity.Drink;
 
@@ -24,9 +27,14 @@ public class DrinkDAOImpl implements DrinkDAO {
     private static final String SQL_GET_LIST = "select * from drink";
     private static final String SQL_DELETE = "delete from drink where id = ?";
     private static final String SQL_GET_DRINK = "select * from drink where id=?";
-
+    
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    
+    @Autowired
+    @Lazy
+    private OrderDAO orderDAO;
+    
 
     @Override
     public List<Drink> get() {
@@ -35,9 +43,9 @@ public class DrinkDAOImpl implements DrinkDAO {
 
     @Override
     public Drink get(int id) {
-        return jdbcTemplate.queryForObject(
+        return this.jdbcTemplate.queryForObject(
                 SQL_GET_DRINK,
-                new Object[]{id}, new DrinkRowMapper());
+                new DrinkRowMapper(), id);
     }
 
     @Override
@@ -63,6 +71,7 @@ public class DrinkDAOImpl implements DrinkDAO {
 
     @Override
     public void delete(int id) {
+    	orderDAO.delete(id, "drink");
         jdbcTemplate.update(SQL_DELETE, id);
     }
 

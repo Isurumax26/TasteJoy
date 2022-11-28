@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tastejoy.app.dao.DrinkDAO;
 import com.tastejoy.app.dao.OrderDAO;
+import com.tastejoy.app.dao.PizzaDAO;
 import com.tastejoy.app.entity.Drink;
 import com.tastejoy.app.entity.Order;
 import com.tastejoy.app.entity.Pizza;
@@ -28,11 +30,17 @@ public class OrderController {
 
     @Autowired
     private OrderDAO orderDAO;
-
+    
+    @Autowired
+    private DrinkDAO drinkDAO;
+    
+    @Autowired
+    private PizzaDAO pizzaDAO;
+    
     @GetMapping
-    public String getOrder(@PathVariable(required = false) Integer id, Model model) {
+    public String getOrder(Model model) {
         model.addAttribute("orders", orderDAO.get());
-        model.addAttribute("order", id != null ? orderDAO.get(id) : new Order());
+       
         return ORDER;
     }
 
@@ -50,15 +58,14 @@ public class OrderController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         order.setUsername(user.getUsername());
         if (Drink.TYPE.equals(type)) {
-            Drink drink = new Drink();
-            drink.setId(productId);
+            Drink drink = drinkDAO.get(productId);
             order.setDrink(drink);
         } else if (Pizza.TYPE.equals(type)) {
-            Pizza pizza = new Pizza();
-            pizza.setId(productId);
+            Pizza pizza = pizzaDAO.get(productId);
             order.setPizza(pizza);
         }
         orderDAO.add(order);
+
 
         return new ModelAndView(REDIRECT_ORDER);
     }

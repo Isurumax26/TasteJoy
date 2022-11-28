@@ -21,29 +21,33 @@ public class OrderDAOImpl implements OrderDAO {
 
     private static final String SQL_ADD = "insert into orders(productType,idProduct,idClient) values(?,?,?)";
     private static final String SQL_UPDATE = "update orders set status=?, productType=?, idProduct=?, idClient=? where id=?";
-    private static final String SQL_GET_LIST = "SELECT orders.*, pizza.id, pizza.price as 'pizzaPrice', pizza.size, pizza.info, drink.*," +
-            " drink.price as 'drinkPrice' FROM orders, pizza, drink WHERE pizza.id=orders.idProduct and orders.idProduct=drink.id";
     private static final String SQL_DELETE = "delete from orders where id = ?";
-    private static final String SQL_GET_ORDER = SQL_GET_LIST + " and orders.id=?";
+    private static final String SQL_DELETE_PRODUCT = "delete from orders where idProduct = ? and  productType = ?";
+    private static final String SQL_GET_ORDERS = "SELECT orders.* FROM orders"; 
+    private static final String SQL_GET_ORDER = SQL_GET_ORDERS + " WHERE orders.id=?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    
+    @Autowired
+    private OrderRowMapper orderRowMapper;
 
     @Override
     public List<Order> get() {
-        return jdbcTemplate.query(SQL_GET_LIST, new OrderRowMapper());
+        return jdbcTemplate.query(SQL_GET_ORDERS, orderRowMapper);
     }
 
     @Override
     public Order get(int id) {
         return jdbcTemplate.queryForObject(
                 SQL_GET_ORDER,
-                new OrderRowMapper(), id);
+                orderRowMapper, id);
     }
 
     @Override
     public void add(Order order) {
         if(order.getId() !=0 && get(order.getId()) != null) {
+            
             update(order);
             return;
         }
@@ -68,6 +72,10 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public void delete(int id) {
         jdbcTemplate.update(SQL_DELETE, id);
+    }
+    
+    public void delete(int id, String type) {
+        jdbcTemplate.update(SQL_DELETE_PRODUCT, id, type);
     }
 
     private PreparedStatementCreator generatePreparedStatementCreator(final Order order, final String sql) {

@@ -65,11 +65,6 @@ public class UserDAOImpl implements UserDAO {
 
     public void updateUser(User user){
 
-        // define query arguments
-        Object[] params = { user.getUsername(), user.getFirstName(),user.getSecondName(),
-                                    user.getPhoneNumber(),user.getAddress(),user.getEmail()};
-        // define SQL types of the arguments
-        int[] types = {Types.VARCHAR};
         update(user);
 
         //int rows = jdbcTemplate.update(SQL_UPDATE, params, types);
